@@ -4,15 +4,15 @@ public class Tasks15{
     
     public static String findNumber(List<Integer> arr, int k) {
         // Проста перевірка через contains
-        // return arr.contains(k) ? "YES" : "NO";
+        return arr.contains(k) ? "YES" : "NO";
         
         // Або через цикл (але тут була помилка!)
-        for (Integer number : arr) {
-            if (number == k) {  // Виправлено: порівнюємо з k, а не з arr
+        /* for (Integer number : arr) {
+            if (number == k) { // Виправлено: порівнюємо з k, а не з arr
                 return "YES";
             }
         }
-        return "NO";
+        return "NO"; */
     }
 
     public static List<Integer> oddNumbers(int l, int r) {
