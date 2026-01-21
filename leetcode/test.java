@@ -1,5 +1,3 @@
-package leetcode-java;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.Arrays;
