@@ -120,6 +120,19 @@ public class Tasks15{
         }
     }
 
+    public interface Flyable {
+        void fly();
+    }
+
+    public static class Bird implements Flyable {
+        public void fly() {
+            System.out.println("Bird flies");
+        }
+
+        void chirp() {
+            System.out.println("Bird chirps");
+        }
+    }
     public static void main(String[] args) {
         // Не потрібно створювати об'єкт, бо методи static!
         // test solution = new test(); - це зайве
@@ -134,5 +147,19 @@ public class Tasks15{
         System.out.println("Finding 3 in the list: " + result1);
         String result2 = findNumber(numbers, 6);
         System.out.println("Finding 6 in the list: " + result2);
+
+        Flyable f = new Bird();  // Upcasting до інтерфейсу
+        f.fly();
+        // f.chirp();            // Чому помилка?
+        
+        if (f instanceof Bird) {
+            Bird b = (Bird) f;   // Downcasting до класу
+            b.chirp();           // Тепер можна
+        }
+        
+        // Приведення між інтерфейсами:
+        Object obj = new Bird();
+        Flyable flyable = (Flyable) obj;  // Безпечно?
+        flyable.fly();
     }
 }
