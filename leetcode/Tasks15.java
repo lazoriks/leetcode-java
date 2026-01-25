@@ -9,7 +9,7 @@ public class Tasks15{
         // Або через цикл (але тут була помилка!)
         /* for (Integer number : arr) {
             if (number == k) { // Виправлено: порівнюємо з k, а не з arr
-                return "YES";
+                return "YES";u6
             }
         }
         return "NO"; */
