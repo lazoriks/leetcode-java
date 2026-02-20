@@ -3,6 +3,32 @@ import java.util.stream.Collectors;
 
 public class HashtagAnalyzer {
 
+    public boolean isValidBrackets(String s) {
+        if (s == null || s.length() % 2 != 0) {
+            return false;
+        }
+
+        Map<Character, Character> bracketPairs = new HashMap<>();
+        bracketPairs.put(')', '(');
+        //bracketPairs.put('}', '{');
+        //bracketPairs.put(']', '[');
+
+        Deque<Character> stack = new ArrayDeque<>();
+
+        for (char c : s.toCharArray()) {
+            if (bracketPairs.containsValue(c)) {
+                stack.push(c);
+            } else if (bracketPairs.containsKey(c)) {
+                if (stack.isEmpty() || stack.pop() != bracketPairs.get(c)) {
+                    return false;
+                }
+            }
+        }
+
+        return stack.isEmpty();
+    }   
+
+
     public List<String> getMessages(List<String> texts) {
         if (texts == null || texts.isEmpty()) {
             return new ArrayList<>();
@@ -40,5 +66,8 @@ public class HashtagAnalyzer {
         System.out.println(result);
         // Можливий результат: [Bella, development, Sova, loganitive, hello!, world?,
         // test123]
+        String brackets = "[[[())]}";
+        System.out.println(analyzer.isValidBrackets(brackets)); // false
+
     }
 }
