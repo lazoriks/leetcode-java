@@ -10,8 +10,8 @@ public class HashtagAnalyzer {
 
         Map<Character, Character> bracketPairs = new HashMap<>();
         bracketPairs.put(')', '(');
-        //bracketPairs.put('}', '{');
-        //bracketPairs.put(']', '[');
+        bracketPairs.put('}', '{');
+        bracketPairs.put(']', '[');
 
         Deque<Character> stack = new ArrayDeque<>();
 
@@ -26,8 +26,7 @@ public class HashtagAnalyzer {
         }
 
         return stack.isEmpty();
-    }   
-
+    }
 
     public List<String> getMessages(List<String> texts) {
         if (texts == null || texts.isEmpty()) {
