@@ -1,4 +1,6 @@
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -6,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+//import static java.lang.Math.PI;
 
 public class FindDuplicates {
     public static void main(String[] args) {
@@ -18,6 +21,17 @@ public class FindDuplicates {
                 .collect(Collectors.toSet());
         System.out.println(duplicates);
 
+    }
+
+    public static List<String> find3MostWords(String words){
+        Map<String, Long> freq = Arrays.stream(words.split("\\s+"))
+                .collect(Collectors.groupingBy(w -> w, Collectors.counting()));
+
+        return freq.entrySet().stream()
+                .sorted(Map.Entry.<String, Long>comparingByValue(Comparator.reverseOrder()))
+                .limit(3)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
     }
 
     public String reveStringManual(String s) {
@@ -94,6 +108,45 @@ public class FindDuplicates {
     public int findMaxStream(int[] nums) {
         return IntStream.of(nums).max().orElseThrow();
     }
+
+    class Outer {
+        class Inner {
+        } // Inner class - потребує екземпляр Outer
+    }
+
+    // Outer.Inner inner = new Outer.Inner(); // ПОМИЛЛЯ!
+    Outer outer = new Outer();
+    Outer.Inner inner = outer.new Inner(); // Правильно
+
+    /* class Counter {
+        private int count = 0;
+
+        // Синхронізація на рівні поточного об'єкта (this)
+        public synchronized void increment() {
+            count++; // Тепер атомарно для цього методу
+        }
+
+        public synchronized int getCount() {
+            return count;
+        }
+    }
+
+    // Використання:
+    Counter counter = new Counter();
+
+    // Потік 1
+    new Thread(()->
+    {
+        for (int i = 0; i < 1000; i++)
+            counter.increment();
+    }).start();
+
+    // Потік 2
+    new Thread(()->
+    {
+        for (int i = 0; i < 1000; i++)
+            counter.increment();
+    }).start(); */
 
     // Завдання 1: Find the first non-repeating character in a string (5 хв)
     public char firstNonRepeating(String s) {

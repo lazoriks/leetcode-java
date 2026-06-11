@@ -6,10 +6,11 @@ public class TryFinallyReturn {
     public static int test() {
         try {
             System.out.println("try block");
-            return 1;
+            /* return 1; */
         } finally {
             System.out.println("finally block");
-            return 2;
+            //return 2;
         }
+        return 0;
     }
 }
