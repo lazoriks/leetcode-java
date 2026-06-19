@@ -17,7 +17,7 @@ public class UserCasheService {
             return entry.getUser();
         }
 
-        User user = userRepository.findById(id)
+        User user = ((Object) userRepository.findById(id))
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         put(id, user);
