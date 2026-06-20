@@ -1,13 +1,14 @@
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
-public class UserCasheService {
+public class UserCacheService {
     private final Map<Long, CacheEntry> cache = new HashMap<>();
     private final UserRepository userRepository;
     private final int maxSize = 1000;
 
-    public UserCasheService(UserRepository userRepository) {
+    public UserCacheService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -17,7 +18,7 @@ public class UserCasheService {
             return entry.getUser();
         }
 
-        User user = ((Object) userRepository.findById(id))
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         put(id, user);
@@ -26,14 +27,13 @@ public class UserCasheService {
 
     public void put(Long id, User user) {
         if (cache.size() >= maxSize) {
-            Long oldestKey = cache.keySet().iterator().next();
-            /*
-             * Long oldestKey = cache.entrySet().stream()
-             * .min(Comparator.comparingLong(e -> e.getValue().createdAt))
-             * .map(Map.Entry::getKey)
-             * .orElse(null);
-             */
-            cache.remove(oldestKey);
+            Long oldestKey = cache.entrySet().stream()
+                    .min(Comparator.comparingLong(e -> e.getValue().createdAt))
+                    .map(Map.Entry::getKey)
+                    .orElse(null);
+            if (oldestKey != null) {
+                cache.remove(oldestKey);
+            }
         }
         cache.put(id, new CacheEntry(user));
     }
@@ -43,16 +43,10 @@ public class UserCasheService {
     }
 
     public void cleanUp() {
-        for (Map.Entry<Long, CacheEntry> entry : cache.entrySet()) {
-            if (entry.getValue().isExpired()) {
-                cache.remove(entry.getKey());
-            }
-        }
-        // cache.entrySet().removeIf(entry -> entry.getValue().isExpired());
+        cache.entrySet().removeIf(entry -> entry.getValue().isExpired());
     }
 
     public static class CacheEntry {
-
         private User user;
         private long createdAt;
         private static final long TTL = 5 * 60 * 1000;
@@ -69,20 +63,16 @@ public class UserCasheService {
         public User getUser() {
             return user;
         }
-
     }
 
     public class UserRepository {
-
-        public Object findById(Long id) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'findById'");
+        public Optional<User> findById(Long id) {
+            // TODO: implement actual database lookup
+            return Optional.empty();
         }
-
     }
 
     public class User {
-
+        // User fields and methods
     }
-
 }
